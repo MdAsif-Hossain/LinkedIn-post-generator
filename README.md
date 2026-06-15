@@ -1,65 +1,94 @@
-# 🚀 LinkedIn Post Generator — AI Agent
+# 🚀 LinkedIn Post Generator — AI Agent with LangChain
 
-> An AI-powered LinkedIn post generator built with **LangChain (LCEL)** and **Streamlit**. Generate professional, engaging, and multilingual LinkedIn posts in seconds.
+<div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![LangChain](https://img.shields.io/badge/LangChain-0.3+-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-LCEL-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.45+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![Groq](https://img.shields.io/badge/Groq-Llama_3.3_70B-F55036?style=for-the-badge&logo=groq&logoColor=white)
+
+**An AI-powered agent that generates professional, multilingual LinkedIn posts in seconds.**
+Built with modern LangChain Expression Language (LCEL) — no deprecated APIs.
+
+</div>
+
+---
+
+## 📽️ Demo
+
+https://github.com/user-attachments/assets/demo.mp4
+
+> **Note:** Replace the link above with your actual GitHub video URL after pushing.
+> To upload: drag `demo.mp4` into a GitHub issue or PR comment, copy the generated URL, and paste it here.
 
 ---
 
 ## ✨ Features
 
-| Feature | Description |
-|---|---|
-| 🤖 **Multi-Provider LLM** | Supports **Groq (free)** and **OpenAI** — switch providers from the sidebar |
-| 🌐 **10+ Languages** | English, Bengali, Spanish, French, German, Hindi, Arabic, Chinese, Japanese, Portuguese |
-| 🎨 **5 Tone Presets** | Professional, Inspirational, Storytelling, Casual, Bold & Provocative |
-| 📏 **Length Control** | Short, Medium, or Long post output |
-| 📜 **Post History** | Session-based history of all generated posts in the sidebar |
-| 🌡️ **Temperature Slider** | Fine-tune the creativity of the output |
-| ⚡ **Modern LCEL** | Uses LangChain Expression Language — no deprecated `LLMChain` |
+- 🤖 **Multi-Provider LLM Support** — Switch between **Groq (free)** and **OpenAI** from the sidebar
+- 🌐 **10+ Languages** — English, Bengali, Spanish, French, German, Hindi, Arabic, Chinese, Japanese, Portuguese
+- 🎨 **5 Tone Presets** — Professional, Inspirational, Storytelling, Casual, Bold & Provocative
+- 📏 **Adjustable Post Length** — Short, Medium, or Long output
+- 📜 **Session-Based Post History** — Track and revisit all generated posts
+- 🌡️ **Temperature Control** — Fine-tune creativity from focused (0.0) to creative (1.0)
+- ⚡ **Modern LCEL Architecture** — Uses `prompt | llm | StrOutputParser()`, not deprecated `LLMChain`
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Project Architecture
 
 ```
 linkedin-post-generator/
-├── app.py               # Streamlit UI — entry point
-├── config.py            # Constants: languages, tones, providers
+│
+├── app.py                  # Streamlit UI — entry point
+├── config.py               # Constants: languages, tones, providers, models
+│
 ├── core/
 │   ├── __init__.py
-│   ├── chains.py        # LCEL chain: prompt | llm | parser
-│   └── prompts.py       # ChatPromptTemplate (System + Human)
-├── .env.example         # Environment variable template
+│   ├── prompts.py          # ChatPromptTemplate (SystemMessage + HumanMessage)
+│   └── chains.py           # LCEL chain: prompt | llm | StrOutputParser()
+│
+├── .env                    # API keys (git-ignored)
+├── .env.example            # Template for environment variables
 ├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
 
-### How It Works
+---
+
+## ⚙️ How It Works
 
 ```
-User Input (topic, language, tone, length)
-        │
-        ▼
-  ┌─────────────┐
-  │  prompts.py  │  ChatPromptTemplate with SystemMessage + HumanMessage
-  └──────┬──────┘
-         │
-         ▼
-  ┌─────────────┐
-  │  chains.py   │  LCEL: prompt | llm | StrOutputParser()
-  └──────┬──────┘
-         │
-         ▼
-  ┌─────────────┐
-  │  LLM API    │  Groq (Llama 3.3 70B) or OpenAI (GPT-4o)
-  └──────┬──────┘
-         │
-         ▼
-  Generated LinkedIn Post
+┌──────────────────────────────────────────────────────────────┐
+│                        User Input                            │
+│   Topic · Language · Tone · Post Length                       │
+└──────────────────┬───────────────────────────────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────────────────────────────┐
+│  prompts.py — ChatPromptTemplate                             │
+│  SystemMessage (persona + rules) + HumanMessage (user input) │
+└──────────────────┬───────────────────────────────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────────────────────────────┐
+│  chains.py — LCEL Chain                                      │
+│  prompt | ChatGroq/ChatOpenAI | StrOutputParser()            │
+└──────────────────┬───────────────────────────────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────────────────────────────┐
+│  Generated LinkedIn Post (2–4 paragraphs + hashtags)         │
+└──────────────────────────────────────────────────────────────┘
+```
+
+The chain uses **LangChain Expression Language (LCEL)** — the modern, composable pattern that replaces the deprecated `LLMChain` class:
+
+```python
+# core/chains.py
+chain = linkedin_post_prompt | llm | StrOutputParser()
+result = chain.invoke({"topic": ..., "language": ..., "tone": ..., "length": ...})
 ```
 
 ---
@@ -79,23 +108,19 @@ cd linkedin-post-generator
 pip install -r requirements.txt
 ```
 
-### 3. Set Up Environment Variables
+### 3. Set Up Your API Key
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and add your API key:
+Edit the `.env` file and add your Groq API key:
 
 ```env
-# Get your free Groq API key at: https://console.groq.com/keys
-GROQ_API_KEY=your_groq_api_key_here
-
-# (Optional) OpenAI key: https://platform.openai.com/api-keys
-OPENAI_API_KEY=your_openai_api_key_here
+GROQ_API_KEY=gsk_your_actual_key_here
 ```
 
-> **💡 Tip:** Groq offers a **free tier** — no credit card required!
+> 💡 **Get a free Groq API key** at [console.groq.com/keys](https://console.groq.com/keys) — no credit card required.
 
 ### 4. Run the App
 
@@ -103,26 +128,28 @@ OPENAI_API_KEY=your_openai_api_key_here
 streamlit run app.py
 ```
 
-The app will open at `http://localhost:8501`.
+The app opens at `http://localhost:8501` 🎉
 
 ---
 
 ## 🧪 Test Cases
 
-| # | Topic | Language | Tone | Expected |
+| # | Topic | Language | Tone | Expected Output |
 |---|---|---|---|---|
-| 1 | AI in Healthcare | English | Professional | 2–4 para, formal, hashtags |
-| 2 | Remote Work Productivity | Bengali | Inspirational | Bengali text, motivational |
-| 3 | Climate Tech | Spanish | Storytelling | Spanish, narrative style |
+| 1 | AI in Healthcare | English | 🎯 Professional | Formal, structured, with relevant hashtags |
+| 2 | Remote Work Productivity | Bengali (বাংলা) | 💡 Inspirational | Full Bengali text, motivational tone |
+| 3 | Climate Tech Startups | Spanish (Español) | 📖 Storytelling | Spanish narrative with personal angle |
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **[LangChain](https://python.langchain.com/)** — LLM orchestration framework (LCEL pattern)
-- **[Streamlit](https://streamlit.io/)** — Interactive web UI
-- **[Groq](https://groq.com/)** — Ultra-fast LLM inference (Llama 3.3 70B)
-- **[OpenAI](https://openai.com/)** — GPT-4o / GPT-4o Mini
+| Technology | Role |
+|---|---|
+| [LangChain](https://python.langchain.com/) | LLM orchestration (LCEL pattern) |
+| [Streamlit](https://streamlit.io/) | Interactive web UI |
+| [Groq](https://groq.com/) | Ultra-fast inference — Llama 3.3 70B |
+| [OpenAI](https://openai.com/) | GPT-4o / GPT-4o Mini (optional) |
 
 ---
 
@@ -132,6 +159,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-<p align="center">
-  Built with ❤️ using LangChain & Streamlit
-</p>
+<div align="center">
+
+**Built with ❤️ using LangChain & Streamlit**
+
+</div>
