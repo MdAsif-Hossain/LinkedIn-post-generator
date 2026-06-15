@@ -18,18 +18,9 @@ Built with modern LangChain Expression Language (LCEL) — no deprecated APIs.
 
 <div align="center">
 
-https://github.com/user-attachments/assets/REPLACE_WITH_YOUR_VIDEO_ID
+https://github.com/user-attachments/assets/a2c73512-c763-4a9f-9260-044d560ab25b
 
 </div>
-
-> **How to add your video to GitHub:**
-> 1. Go to your repo → open a new Issue
-> 2. Drag & drop `demo.mp4` into the comment box
-> 3. GitHub generates a URL like `https://github.com/user-attachments/assets/abc123...`
-> 4. Copy that URL and replace the placeholder above
-> 5. Close the issue — the video link stays permanent
->
-> The video will render in a **player frame** with autoplay directly in your README.
 
 ---
 
