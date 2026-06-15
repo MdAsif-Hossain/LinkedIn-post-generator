@@ -99,8 +99,8 @@ result = chain.invoke({"topic": ..., "language": ..., "tone": ..., "length": ...
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/linkedin-post-generator.git
-cd linkedin-post-generator
+git clone https://github.com/MdAsif-Hossain/LinkedIn-post-generator.git
+cd LinkedIn-post-generator
 ```
 
 ### 2. Install Dependencies
@@ -111,15 +111,20 @@ pip install -r requirements.txt
 
 ### 3. Set Up Your API Key
 
+Create your environment variables file:
+
 ```bash
 cp .env.example .env
 ```
 
-Edit the `.env` file and add your Groq API key:
+Your `.env.example` file contains:
 
 ```env
-GROQ_API_KEY=gsk_your_actual_key_here
+GROQ_API_KEY=
+OPENAI_API_KEY=
 ```
+
+Edit the `.env` file and add your actual API keys.
 
 > 💡 **Get a free Groq API key** at [console.groq.com/keys](https://console.groq.com/keys) — no credit card required.
 
@@ -162,6 +167,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 <div align="center">
 
-**Built with ❤️ using LangChain & Streamlit**
+**Built by [Md Asif Hossain](https://github.com/MdAsif-Hossain) | ✉️ [asifhossain8612@gmail.com](mailto:asifhossain8612@gmail.com)**
 
 </div>
