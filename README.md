@@ -18,7 +18,7 @@ Built with modern LangChain Expression Language (LCEL) — no deprecated APIs.
 
 <div align="center">
 
-https://github.com/user-attachments/assets/a2c73512-c763-4a9f-9260-044d560ab25b
+https://github.com/user-attachments/assets/a41558ec-6822-4167-8d2e-518be04f287a
 
 </div>
 
