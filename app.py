@@ -187,23 +187,8 @@ with st.sidebar:
     )
     provider_config = PROVIDERS[provider_label]
 
-    # API Key — loaded automatically from .env file
+    # API Key — loaded silently from .env file
     api_key = os.getenv(provider_config["env_key"], "")
-    if api_key:
-        st.markdown(
-            f'<div style="background:#dcfce7;border:1px solid #86efac;border-radius:8px;'
-            f'padding:0.5rem 0.75rem;font-size:0.85rem;color:#166534;margin-bottom:0.5rem;">'
-            f'✅ <b>{provider_config["env_key"]}</b> loaded from <code>.env</code></div>',
-            unsafe_allow_html=True,
-        )
-    else:
-        st.markdown(
-            f'<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;'
-            f'padding:0.5rem 0.75rem;font-size:0.85rem;color:#991b1b;margin-bottom:0.5rem;">'
-            f'❌ <b>{provider_config["env_key"]}</b> not found in <code>.env</code></div>',
-            unsafe_allow_html=True,
-        )
-        st.caption("Add your key to the `.env` file and restart the app.")
 
     # Temperature slider
     temperature = st.slider(
